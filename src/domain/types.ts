@@ -147,10 +147,20 @@ export interface LedgerEntry {
   createdAt: string;
 }
 
+export type TaskStatus = 'BLOCKED' | 'READY' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+
+export interface DependencySnapshotEntry {
+  status: TaskStatus;
+  version: number;
+}
+
 export interface DependentTask {
   id: string;
   workOrderId: string;
   dependsOn: string[];
-  status: 'BLOCKED' | 'READY' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  status: TaskStatus;
   version: number;
+  // Versions of the prerequisites the task was last released (READY) against.
+  // Empty while BLOCKED. Never an authorization on its own: every gate rechecks live state.
+  releasedBy?: Record<string, number>;
 }
