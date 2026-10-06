@@ -6,6 +6,7 @@ import { InstallationService } from './services/installation-service.js';
 import { InventoryService } from './services/inventory-service.js';
 import { SettlementService } from './services/settlement-service.js';
 import { SlaService } from './services/sla-service.js';
+import { TaskDependencyService } from './services/dependency-service.js';
 import { TenantJobService } from './services/tenant-job-service.js';
 import { WorkOrderService } from './services/work-order-service.js';
 import { Store } from './store/store.js';
@@ -21,6 +22,7 @@ export class MroApplication {
   readonly installation = new InstallationService(this.store);
   readonly externalEvents = new ExternalEventService(this.store);
   readonly sla = new SlaService(this.store);
+  readonly taskDependencies = new TaskDependencyService(this.store);
 
   seed(): void {
     const stock: PartStock = {

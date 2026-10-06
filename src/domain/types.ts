@@ -147,10 +147,16 @@ export interface LedgerEntry {
   createdAt: string;
 }
 
+export type DependentTaskStatus = 'BLOCKED' | 'READY' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+
 export interface DependentTask {
   id: string;
   workOrderId: string;
   dependsOn: string[];
-  status: 'BLOCKED' | 'READY' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  status: DependentTaskStatus;
   version: number;
+  // Current prerequisite versions the last admission decision was based on;
+  // absent while BLOCKED/CANCELLED/COMPLETED. Lets execution gates prove the
+  // decision is still anchored to the prerequisite's current version.
+  satisfiedBy?: Record<string, number>;
 }
